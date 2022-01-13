@@ -11,16 +11,29 @@
  */
 class Solution {
 public:
-    void Ans(TreeNode *R, int cur, int &ret){
-        cur=cur*2+R->val;
-        if(R->left!=NULL) Ans(R->left,cur,ret);
-        if(R->right!=NULL) Ans(R->right,cur,ret);
-        if(R->left==NULL && R->right==NULL) ret+=cur;
-    }  
+    void rootToLeaf(TreeNode* root,string currentStr,int* ans){
+        
+        if(root->left==NULL and root->right==NULL){
+            currentStr+=to_string(root->val);
+            ans[0]+=stoi(currentStr,0,2);
+            return;
+        }
+        
+        if(root->left!=NULL)
+            rootToLeaf(root->left,currentStr+to_string(root->val),ans);
+        
+        if(root->right!=NULL)
+             rootToLeaf(root->right,currentStr+to_string(root->val),ans);
+        
+        return;
+    }
     
-    int sumRootToLeaf(TreeNode* R) {
-        int ret=0,cur=0;
-        Ans(R,cur,ret);
-        return(ret);
+    int sumRootToLeaf(TreeNode* root) {
+        int* ans=new int[1];
+        ans[0]=0;
+        rootToLeaf(root,"",ans);
+        return ans[0];
     }
 };
+
+
