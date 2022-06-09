@@ -1,18 +1,21 @@
 class Solution {
 public:
     int totalSteps(vector<int>& nums) {
-        vector<int> maxEats(nums.size());
-        stack<int>stk;
-        int step=0;
+        int n=nums.size(),ans=0,count;
+        stack<pair<int,int>>stk;
         
-        for(int i=nums.size()-1;i>=0;i--){
-            while(!stk.empty() and nums[i]>nums[stk.top()]){
-                maxEats[i]=max(maxEats[i]+1,maxEats[stk.top()]);
+        stk.push({nums[n-1],0});
+        
+        for(int i=n-2;i>=0;i--){
+            count=0;
+            
+            while(!stk.empty() and nums[i]>stk.top().first){
+                count=max(count+1,stk.top().second);
                 stk.pop();
             }
-            stk.push(i);
-            step=max(step,maxEats[i]);
+            ans=max(ans,count);
+            stk.push({nums[i],count});
         }
-        return step;
+        return ans;
     }
 };
